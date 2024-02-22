@@ -3,6 +3,7 @@ const connection=require("./db")
 const userRouter=require("./routes/user.route");
 const postRouter=require("./routes/post.route");
 const bodyParser = require('body-parser');
+const cors=require("cors")
 require("dotenv").config()
 
 const app=express();
