@@ -1,30 +1,29 @@
-const express=require("express");
-const connection=require("./db")
-const userRouter=require("./routes/user.route");
-const postRouter=require("./routes/post.route");
-const bodyParser = require('body-parser');
-const cors=require("cors")
-require("dotenv").config()
+require("dotenv").config();
+const express = require("express");
+const app = express();
+const cors = require("cors");
 
-const app=express();
+
+const Connection = require("./config/db");
+const  userRouter  = require("./routes/user");
+const postRouter  = require("./routes/post");
 
 app.use(express.json());
 app.use(cors());
-app.use(bodyParser.json());
 
-app.get('/', (req, res) => {
-    res.send('<h1>Cointab SE-ASSIGNMENT</h1><button onclick="getAllUsers()">All Users</button>');
+app.use("/users", userRouter);
+app.use("/posts", postRouter);
+
+app.get("/", (req, res) => {
+  res.send("Welcome to cointab assignment");
 });
 
-app.use("/", userRouter);
-app.use("/", postRouter);
-
-app.listen(6500, async()=>{
-    try {
-        await connection;
-        console.log("Connected to DB");
-    } catch (error) {
-        console.log(error);
-    }
-    console.log(`Server is running on port 6500`);
-})
+app.listen(4500, async () => {
+  try {
+    console.log(`Server is running on http://localhost 4500`);
+    console.log("DB is connected");
+    await Connection;
+  } catch (error) {
+    console.log(error.message);
+  }
+});
